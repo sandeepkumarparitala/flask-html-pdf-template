@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/static/index.css" />
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+   <!-- <script src="sample.js"></script> -->
     <style>
       html,
       body {
@@ -170,7 +174,7 @@
       .skill-expander{
         width: 200px;
         background-color: #D8D8D8;
-        height: 30px;
+        height: 25px;
         margin-left: 10px;
       }
 
@@ -181,17 +185,21 @@
       }
 
       .skillOne-filler{
-        height: 30px;
+        height: 25px;
         background-color:#3893d0;
-        width: {{skillOnePercentage}};
+        width: {{data['skillOnePercentage']}}%;
       }
-      
-      .skillTwo-filler{
 
+      .skillTwo-filler{
+        height: 25px;
+        background-color:#3893d0;
+        width: {{data['skillTwoPercentage']}}%;
       }
 
       .skillThree-filler{
-
+        height: 25px;
+        background-color:#3893d0;
+        width: {{data['skillThreePercentage']}}%;
       }
 
       .section-heading-diving{
@@ -224,7 +232,272 @@
         border-right: none;
       }
 
+      .highcharts-container {
+        height: 210px !important;
+      }
+
+      .indicators-container{
+        display:flex;
+        color: #585858;
+        margin: 20px 0 0 10px;;
+      }
+
+      .color-type{
+        display:flex;
+        margin-right:10px;
+      }
+
+      .color-filler-started{
+        height:20px;
+        width:20px;
+        background: #EEF4EC;
+        margin-right: 10px;
+      }
+
+      .color-filler-almost{
+        height:20px;
+        width:20px;
+        background: #B7D3AF;
+        margin-right: 10px;
+      }
+
+      .color-filler-ready{
+        height:20px;
+        width:20px;
+        background: #5C9440;
+        margin-right: 10px; 
+      }
+
     </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(){
+    //....=
+            
+            // Issue #602 workaround
+            var readinessValue = "{{data['readinessValue']}}"
+            console.log('readiness value ==>', typeof readinessValue, readinessValue)
+            Highcharts.seriesTypes.gauge.prototype.drawLegendSymbol = 
+            Highcharts.seriesTypes.column.prototype.drawLegendSymbol;
+            
+            var chartColors = ['#828282'];
+            var gaugePBColors = ['#EEF4EC','#B7D3AF','#5C9440'];
+            
+            var chart = new Highcharts.Chart({
+            
+                chart: {
+                    renderTo: 'gaugeMeter',
+                    type: 'gauge',
+                    backgroundColor: 'none'
+                },
+                
+                colors: [
+                    chartColors[0]
+                ],
+                
+                credits: {
+                    enabled: false
+                },
+            
+                title: {
+                    text: null,
+                    style: {
+                        fontFamily: 'arial,helvetica,sans-serif',
+                        color: chartColors[1],
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
+                },
+                
+                legend: {
+                    align: 'left',
+                    verticalAlign: 'bottom',
+                    layout: 'vertical',
+                    x: 0,
+                    y: -112,
+                    floating: true,
+                    borderWidth:0
+                },
+                
+                // navigation: {
+                //     // buttonOptions: {
+                //     //     floating: true,
+                //     //     align: 'right',
+                //     //     verticalAlign: 'bottom',
+                //     //     y: -134,
+                //     //     backgroundColor: 'white',
+                //     //     borderWidth: 0,
+                //     //     symbolSize: 20
+                //     // },
+                //     menuStyle: {
+                //         borderWidth: 0,
+                //         backgroundColor: '#424242',
+                //         borderRadius: '7px',
+                //         padding: '5px 0',
+                //         overflow: 'hidden',
+                //         BoxShadow: '2px 2px 4px rgba(255,0,0,1) !important'
+                //     },
+                //     menuItemStyle: {
+                //         fontSize: '12px',
+                //         color: '#ffffff',
+                //         padding: '3px 12px 5px'
+                //     },
+                //     menuItemHoverStyle: {
+                //         backgroundColor: '#828282'
+                //     }
+                // },
+                
+                exporting: {
+                    buttons: {
+                        exportButton: {
+                            symbolFill: '#424242',
+                            symbolStroke: '#424242',
+                            hoverSymbolFill: '#828282',
+                            hoverSymbolStroke: '#828282'
+                        },
+                        printButton: {
+                            enabled: false
+                        }
+                    }
+                },
+                
+                pane: [{
+                    startAngle: -90,
+                    endAngle: 90,
+                    background: null
+                }],                        
+            
+                yAxis: [{
+                    min: 1,
+                    max: 100,
+                    lineColor: 'transparent',
+                    tickWidth: 2,
+                    tickLength: 12,
+                    tickColor: 'transparent', /*'#ffffff',*/
+                    minorTickColor: 'transparent',
+                    labels: {
+                        rotation: null,
+                        distance: 15,
+                        zIndex: 1
+                    },
+                    plotBands: [{
+                        from: 1,
+                        to: 30,
+                        color: gaugePBColors[0],
+                        innerRadius: '50%',
+                        outerRadius: '100%'
+                    },{
+                        from: 30,
+                        to: 70,
+                        color: gaugePBColors[1],
+                        innerRadius: '50%',
+                        outerRadius: '100%'
+                    },{
+                        from: 70,
+                        to: 100,
+                        color: gaugePBColors[2],
+                        innerRadius: '50%',
+                        outerRadius: '100%'
+                    }],
+                    pane: 0
+                }],
+                
+                plotOptions: {
+                    gauge: {
+                        dial: {
+                            radius: '100%',
+                            baseWidth: 7,
+                            baseLength: 14,
+                            rearLength: 0
+                        },
+                        pivot: {
+                            radius: 3,
+                            backgroundColor: chartColors[1]
+                        },
+                        // showInLegend: true
+                    }
+                },
+                    
+            
+                series: [{
+                    name: 'CREDREADNIESS',
+                    data: [Number(readinessValue)],
+                    dial: {
+                        backgroundColor: chartColors[0]
+                    },
+                    yAxis: 0,
+                    // dataLabels: {
+                    //     enabled: true,
+                    //     x: 10,
+                    //     y: -157,
+                    //     color: chartColors[0],
+                    //     borderWidth: 0,
+                    //     borderRadius: 7,
+                    //     backgroundColor: '#000',
+                    //     padding: 1,
+                    //     style: {
+                    //         fontSize: '20px',
+                    //         fontWeight: 'bold',
+                    //         lineHeight: '40px'
+                    //     }
+                    // }
+                },
+                // {
+                //     name: 'Afdeling X',
+                //     data: [5.1],
+                //     dial: {
+                //         backgroundColor: chartColors[1]
+                //     },
+                //     yAxis: 0,
+                //     dataLabels: {
+                //         enabled: true,
+                //         x: 96,
+                //         y: -135,
+                //         color: chartColors[1],
+                //         borderWidth: 0,
+                //         borderRadius: 7,
+                //         backgroundColor: '#ffffff',
+                //         padding: 1,
+                //         style: {
+                //             fontSize: '20px',
+                //             fontWeight: 'bold',
+                //             lineHeight: '40px'
+                //         }
+                //     }
+                // }
+              ]
+            
+            }
+            
+            /*,
+            // Let the music play
+            function(chart) {
+                setInterval(function() {
+                    var dep = chart.series[0].points[0],
+                        depVal, 
+                        depInc = (Math.round(Math.random()*10 - 5)/10);
+                    var com = chart.series[1].points[0],
+                        comVal, 
+                        comInc = (Math.round(Math.random()*10 - 5)/10);
+                    
+                    depVal =  dep.y + depInc;
+                    if (depVal < 1 || depVal > 7) {
+                        depVal = dep.y - depInc;
+                    }
+                    comVal =  com.y + comInc;
+                    if (comVal < 1 || comVal > 7) {
+                        comVal = com.y - comInc;
+                    }
+                    
+                    dep.update(depVal, false);
+                    com.update(comVal, false);
+                    chart.redraw();
+            
+                }, 2000);
+            
+            }*/);
+            
+    });
+    </script>
   </head>
   <body>
     <div class="App">
@@ -274,7 +547,23 @@
         </div>
         <div class="infographs-section">
           <div class="skill-meter">
-            <p class="graph-title">CREADREADY READYNESS</p>
+            <p class="graph-title">CREADREADY READINESS</p>
+            <div id="gaugeMeter"></div>
+            <div class="readinessValue">{{credredinessValue}}</div>
+            <div class="indicators-container">
+              <div class="color-type">
+                <div class="color-filler-started"></div>
+                <div class="color-key">Get Started</div>
+              </div>
+              <div class="color-type">
+                <div class="color-filler-almost"></div>
+                <div class="color-key">Almost Ready</div>
+              </div>
+              <div class="color-type">
+                <div class="color-filler-ready"></div>
+                <div class="color-key">Ready</div>
+              </div>
+            </div>
           </div>
           <div class="skill-graphs">
             <p class="graph-title">CREADREADY MATCHED EXPERIENCES</p>
@@ -336,6 +625,7 @@
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
+                fill="#404040"
               >
                 <path
                   d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
@@ -346,13 +636,14 @@
 
             <div class="pathway-detail">
               <p class="pathway-key">PHD</p>
-              {% if data['bio'] %}
+              {% if data['phd'] %}
               <svg
                 width="24"
                 height="24"
                 xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
+                fill="#3893d0"
               >
                 <path
                   d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
@@ -364,6 +655,7 @@
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
+                fill="#404040"
               >
                 <path
                   d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
@@ -373,13 +665,14 @@
             </div>
             <div class="pathway-detail">
               <p class="pathway-key">R&D Management</p>
-              {% if data['bio'] %}
+              {% if data['rAndD'] %}
               <svg
                 width="24"
                 height="24"
                 xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
+                fill="#3893d0"
               >
                 <path
                   d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
@@ -391,6 +684,7 @@
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
+                fill="#404040"
               >
                 <path
                   d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
@@ -400,13 +694,14 @@
             </div>
             <div class="pathway-detail">
               <p class="pathway-key">MBA</p>
-              {% if data['bio'] %}
+              {% if data['mba'] %}
               <svg
                 width="24"
                 height="24"
                 xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
+                fill="#3893d0"
               >
                 <path
                   d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
@@ -418,6 +713,7 @@
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
+                fill="#404040"
               >
                 <path
                   d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
@@ -427,13 +723,14 @@
             </div>
             <div class="pathway-detail">
               <p class="pathway-key">M&A</p>
-              {% if data['bio'] %}
+              {% if data['mAndA'] %}
               <svg
                 width="24"
                 height="24"
                 xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
+                fill="#3893d0"
               >
                 <path
                   d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
@@ -445,6 +742,7 @@
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
+                fill="#404040"
               >
                 <path
                   d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
@@ -454,13 +752,14 @@
             </div>
             <div class="pathway-detail">
               <p class="pathway-key">Venture Capital</p>
-              {% if data['bio'] %}
+              {% if data['ventureCapital'] %}
               <svg
                 width="24"
                 height="24"
                 xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
+                fill="#3893d0"
               >
                 <path
                   d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
@@ -472,6 +771,7 @@
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
+                fill="#404040"
               >
                 <path
                   d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
