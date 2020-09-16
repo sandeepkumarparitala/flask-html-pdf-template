@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/index.css" />
+    <style>
+      html,
+      body {
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+
+      .App {    
+        display: flex;
+        width: 1440px;
+        height: 700px;
+        margin: auto;
+        height: 100%;
+        margin-top: 30px;
+      }
+
+      .profileDetails {
+        flex: 0.3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .pic-section {
+        display: flex;
+        flex-direction: column;
+        background-color: #3893d0;
+        flex: 0.5;
+        width: 100%;
+        align-items: center;
+      }
+
+      .profile-image {
+        width: 200px;
+        height: 100%;
+        max-height: 250px;
+        display: block;
+        margin-top: 30px;
+      }
+
+      .profile-keys {
+        display: block;
+        margin: auto;
+        color: #fff;
+        margin: 0 auto;
+      }
+
+      .name {
+        font-size: 35px;
+        text-transform: capitalize;
+        margin: 10px 0 20px 0;
+      }
+
+      .role,
+      .company {
+        font-size: 20px;
+      }
+
+      .company {
+        margin-bottom: 30px;
+      }
+
+      .professional-details {
+        flex: 0.8;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .row-detail {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #dadada;
+      }
+
+      .detail-key {
+        color: #3893d0;
+      }
+
+      .detail-value {
+        text-transform: capitalize;
+        max-width: 200px;
+      }
+
+      .linkedin-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .report-section {
+        flex: 0.8;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .linkedin-link {
+        color: #fff;
+        background-color: #3893d0;
+        padding: 15px 50px;
+        text-decoration: none;
+        font-size: 21px;
+        border-radius: 5px;
+      }
+
+      .pathway-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 40px 0 0 10px;
+      }
+
+      .company-title {
+        font-size: 35px;
+        color: #3893d0;
+        padding: 10px 20px;
+        border-bottom: 1px solid #dadada;
+      }
+
+      .infographs-section {
+        display: flex;
+        align-items: center;
+        padding: 30px 5px;
+      }
+
+      .skill-meter{
+          border-right: 1px solid #dadada;
+      }
+
+      .skill-meter,
+      .skill-graphs {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .graph-title,
+      .section-heading {
+        color: #404040;
+        margin-left: 20px;
+        font-size: 17px;
+      }
+
+      .pathway-detail {    
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100px;
+        border-right: 1px solid #dadada;
+      }
+
+      .svgPath {
+        fill: #3893d0;
+      }
+
+      .skill-expander{
+        width: 200px;
+        background-color: #D8D8D8;
+        height: 30px;
+        margin-left: 10px;
+      }
+
+      .skill-name-wrapper{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .skillOne-filler{
+        height: 30px;
+        background-color:#3893d0;
+        width: {{skillOnePercentage}};
+      }
+      
+      .skillTwo-filler{
+
+      }
+
+      .skillThree-filler{
+
+      }
+
+      .section-heading-diving{
+        display: flex;
+        align-items: center;
+      }
+
+      .divider-line{    
+        flex: 1;
+        height: 1px;
+        background: #dadada;
+        margin-left: 10px;
+      }
+
+      .about-content{
+        padding: 25px 20px 70px 20px;
+        color:#585858;
+      }
+
+      .skillMeter{
+        width: 300px;
+        height: 40px;
+      }
+
+      .pathway-key{
+        margin:0 0 20px 0;
+      }
+
+      .pathway-content:last-child{
+        border-right: none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="App">
+      <div class="profileDetails">
+        <div class="pic-section">
+          <img src="{{data['profilePic']}}" class="profile-image" />
+          <!-- <div class="details"> -->
+          <p class="name profile-keys">{{data['name']}}</p>
+          <p class="role profile-keys">{{data['currentRole']}},</p>
+          <p class="company profile-keys">{{data['companyName']}}</p>
+          <!-- </div> -->
+        </div>
+        <div class="professional-details">
+          <div class="row-detail">
+            <p class="detail-key">Highest Degree:</p>
+            <p class="detail-value">{{data['highestDegree']}}</p>
+          </div>
+          <div class="row-detail">
+            <p class="detail-key">Gender:</p>
+            <p class="detail-value">{{data['gender']}}</p>
+          </div>
+          <div class="row-detail">
+            <p class="detail-key">Race & Ethnicity:</p>
+            <p class="detail-value">{{data['ethnicity']}}</p>
+          </div>
+          <div class="row-detail">
+            <p class="detail-key">Phone:</p>
+            <p class="detail-value">{{data['phone']}}</p>
+          </div>
+          <div class="row-detail">
+            <p class="detail-key">Email:</p>
+            <p class="detail-value">{{data['email']}}</p>
+          </div>
+          <div class="linkedin-container">
+            <a class="linkedin-link" href="{{data['linkedIn']}}">
+              View Linkedin Profile
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="report-section">
+        <div class="title-section">
+          <div class="company-title">Candidate Report</div>
+          <div class="cred-logo-conatiner">
+            <img class="cred-logo" src="{{data['credReadyLogoSrc']}}" />
+          </div>
+        </div>
+        <div class="infographs-section">
+          <div class="skill-meter">
+            <p class="graph-title">CREADREADY READYNESS</p>
+          </div>
+          <div class="skill-graphs">
+            <p class="graph-title">CREADREADY MATCHED EXPERIENCES</p>
+            <div class="skills-box">
+              <div class="skill-name-wrapper">
+                <p>Skill 1</p>
+                <div class="skill-expander">
+                  <div class="skillOne-filler" ></div>
+                </div>
+              </div>  
+            <div class="skill-name-wrapper">
+              <p>Skill 2</p>
+              <div class="skill-expander">
+                <div class="skillTwo-filler"></div>
+                </div>
+            </div>
+            <div class="skill-name-wrapper">
+              <p>Skill 3</p>
+              <div class="skill-expander">
+                <div class="skillThree-filler" style=></div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-section">
+          <div class="section-heading-diving">
+            <div class="section-heading">ABOUT</div>
+            <div class="divider-line"></div>
+          </div>
+          <div class="about-content">{{data['about']}}</div>
+        </div>
+
+        <div class="pathway-section">
+          <div class="section-heading-diving">
+            <div class="section-heading">CREDREADY PATHWAY</div>
+            <div class="divider-line"></div>
+          </div>
+          <div class="pathway-content">
+            <div class="pathway-detail">
+              <p class="pathway-key">BS, Bio/Chem</p>
+              {% if data['bio'] %}
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  class="svgPath"
+                  d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
+                />
+              </svg>
+              {% else %}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
+                />
+              </svg>
+              {% endif %}
+            </div>
+
+            <div class="pathway-detail">
+              <p class="pathway-key">PHD</p>
+              {% if data['bio'] %}
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
+                />
+              </svg>
+              {% else %}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
+                />
+              </svg>
+              {% endif %}
+            </div>
+            <div class="pathway-detail">
+              <p class="pathway-key">R&D Management</p>
+              {% if data['bio'] %}
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
+                />
+              </svg>
+              {% else %}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
+                />
+              </svg>
+              {% endif %}
+            </div>
+            <div class="pathway-detail">
+              <p class="pathway-key">MBA</p>
+              {% if data['bio'] %}
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
+                />
+              </svg>
+              {% else %}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
+                />
+              </svg>
+              {% endif %}
+            </div>
+            <div class="pathway-detail">
+              <p class="pathway-key">M&A</p>
+              {% if data['bio'] %}
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
+                />
+              </svg>
+              {% else %}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
+                />
+              </svg>
+              {% endif %}
+            </div>
+            <div class="pathway-detail">
+              <p class="pathway-key">Venture Capital</p>
+              {% if data['bio'] %}
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
+                />
+              </svg>
+              {% else %}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z"
+                />
+              </svg>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
