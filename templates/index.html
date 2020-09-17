@@ -134,12 +134,16 @@
 
       .infographs-section {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         padding: 30px 5px;
       }
 
       .skill-meter{
           border-right: 1px solid #dadada;
+      }
+
+      .skills-box{
+        margin-top: 40px;
       }
 
       .skill-meter,
@@ -370,7 +374,7 @@
                     min: 1,
                     max: 100,
                     lineColor: 'transparent',
-                    tickWidth: 2,
+                    tickWidth: 1,
                     tickLength: 12,
                     tickColor: 'transparent', /*'#ffffff',*/
                     minorTickColor: 'transparent',
@@ -383,19 +387,19 @@
                         from: 1,
                         to: 30,
                         color: gaugePBColors[0],
-                        innerRadius: '50%',
+                        innerRadius: '75%',
                         outerRadius: '100%'
                     },{
                         from: 30,
                         to: 70,
                         color: gaugePBColors[1],
-                        innerRadius: '50%',
+                        innerRadius: '75%',
                         outerRadius: '100%'
                     },{
                         from: 70,
                         to: 100,
                         color: gaugePBColors[2],
-                        innerRadius: '50%',
+                        innerRadius: '75%',
                         outerRadius: '100%'
                     }],
                     pane: 0
