@@ -48,7 +48,7 @@
       }
 
       .profile-image {
-        width: 200px;
+        height: 200px;
         display: block;
         margin-top: 30px;
       }
@@ -273,7 +273,7 @@
       }
 
       .cred-logo{
-        width:100px;
+        width:75px;
       }
 
       .title-section{
@@ -281,6 +281,14 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+      }
+
+      .cred-logo-conatiner{
+        display:flex;
+        align-items: center;
+        font-size: 20px;
+        text-transform: capitalize;
+        color: grey;
       }
 
     </style>
@@ -361,19 +369,20 @@
                 //     }
                 // },
                 
-                exporting: {
-                    buttons: {
-                        exportButton: {
-                            symbolFill: '#424242',
-                            symbolStroke: '#424242',
-                            hoverSymbolFill: '#828282',
-                            hoverSymbolStroke: '#828282'
-                        },
-                        printButton: {
-                            enabled: false
-                        }
-                    }
-                },
+              // exporting: {
+              //     buttons: {
+              //         exportButton: {
+              //             symbolFill: '#424242',
+              //             symbolStroke: '#424242',
+              //             hoverSymbolFill: '#828282',
+              //             hoverSymbolStroke: '#828282'
+              //         },
+              //         printButton: {
+              //             enabled: false
+              //         }
+              //     }
+              // },
+                exporting: { enabled: false },
                 
                 pane: [{
                     startAngle: -90,
@@ -557,6 +566,7 @@
         <div class="title-section">
           <div class="company-title">Candidate Report</div>
           <div class="cred-logo-conatiner">
+          <div class="-powered-company">Powered by</div>
             <img class="cred-logo" src="/static/CredReady logo_final.png" />
           </div>
         </div>
