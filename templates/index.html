@@ -26,6 +26,9 @@
         margin: auto;
         height: 100%;
         margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #eaeaea;
+        margin-bottom: 30px;
       }
 
       .profileDetails {
@@ -46,8 +49,6 @@
 
       .profile-image {
         width: 200px;
-        height: 100%;
-        max-height: 250px;
         display: block;
         margin-top: 30px;
       }
@@ -129,7 +130,6 @@
         font-size: 35px;
         color: #3893d0;
         padding: 10px 20px;
-        border-bottom: 1px solid #dadada;
       }
 
       .infographs-section {
@@ -270,6 +270,17 @@
         width:20px;
         background: #5C9440;
         margin-right: 10px; 
+      }
+
+      .cred-logo{
+        width:100px;
+      }
+
+      .title-section{
+        border-bottom: 1px solid #dadada;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
 
     </style>
@@ -546,7 +557,7 @@
         <div class="title-section">
           <div class="company-title">Candidate Report</div>
           <div class="cred-logo-conatiner">
-            <img class="cred-logo" src="{{data['credReadyLogoSrc']}}" />
+            <img class="cred-logo" src="/static/CredReady logo_final.png" />
           </div>
         </div>
         <div class="infographs-section">
